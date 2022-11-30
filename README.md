@@ -1,8 +1,8 @@
 # Experiment--09-Configuring-UART-in-LPC2148-for-serial-data-transmission-
 
-Name :	
-Roll no 
-Date of experiment :
+Name :	GURU PRASAD.B
+Roll no : 212221230032
+Date of experiment :25-11-22
 
 
 
@@ -15,9 +15,10 @@ Components required: Proteus ISIS professional suite, Kiel μ vision 5 Developme
 ### Theory: 
 	The UART Protocol uses only two wires (or pins in a device like microcontroller) to transmit the data. In that, one is for transmitting the data and the pin is called TX pin in the device. The other pin is used to receive the data and is called RX pin.
 As UART is a serial communication, the data is transmitted in a series of packets. Usually, a packet consists of 4 parts: a start bit, the actual data, a parity bit and stop bits. The following image shows a typical structure of the data packet in UART.
-![image](https://user-images.githubusercontent.com/36288975/203727146-383ce4b4-677b-44c3-bb13-a9e203950760.png)
+
 ### FIGURE -01 UART PACKET 
 
+![image](https://user-images.githubusercontent.com/36288975/203727146-383ce4b4-677b-44c3-bb13-a9e203950760.png)
 
 ### UART in LPC2148
 Coming to UART in LPC2148, the LPC214x series of MCUs have two UART blocks called UART0 and UART1. Each UART block is associated with two pins, one for transmission and the other for receiving.
@@ -43,33 +44,57 @@ UART0 Interrupt Identification Register (U0IIR): The Interrupt Identification Re
 UART0 FIFO Control Register (U0FCR): The FIFO Control Register controls the operation of the RX and TX FIFOs in UART0. Bit 0 is used to enable or disable the FIFO. Bit 1 is used to reset the RX FIFO. Bit 2 is used to reset the TX FIFO. Bits 6 and 7 are used to control when the interrupt must occur i.e. after how many receiver characters.
 UART0 Line Control Register (U0LCR): The Line Control Register is used to set the format of the data which is transmitted or received.
 
+## Figure -02 UART interface virtual terminal
 
 ![image](https://user-images.githubusercontent.com/36288975/203729175-35823e84-cdad-4cd2-8334-2a7477de528f.png)
 
-## Figure -02 UART interface virtual terminal
-
 ### Kiel - Program 
+~~~
+#include <LPC213x.H>             
+char a;
+void uart0_init()
+{
+  PINSEL0 = 0x00000005;           
+  U0LCR = 0x83;                   
+  U0DLL = 97;                  
+  U0LCR = 0x03;              
+}
+void uart0_putc(char c)
+{
+ while(!(U0LSR & 0x20));
+ U0THR = c; 
+}
+int uart0_getc (void)
+{                     
+  while (!(U0LSR & 0x01));
+  return (U0RBR);
+}
+int main (void) 
+{                
+  uart0_init();      
+  while (1) 
+  {                          
+   a=uart0_getc();
+   uart0_putc(a);
+  }                               
+}
+~~~
 
+### Output screen shots :
 
+## BEFORE SIMULATION:
 
+![op1](https://user-images.githubusercontent.com/95342910/204841621-d1626255-d98e-4d07-beb5-58cce92806c6.png)
 
+## AFTER SIMULATION:
 
+![op2](https://user-images.githubusercontent.com/95342910/204841679-f09c144f-9931-48f1-b141-e33d83b1338f.png)
 
+## CIRCUIT DIAGRAM:
 
-
-
-
-
-
-
-
-
-
-
-
+![op3](https://user-images.githubusercontent.com/95342910/204841724-d8c76741-9567-4b5c-ad54-9ba553650cdf.png)
 
 ### Result :
 UART is programmed for transmitting serial data on virtual terminal  
 
-### Output screen shots :
 
