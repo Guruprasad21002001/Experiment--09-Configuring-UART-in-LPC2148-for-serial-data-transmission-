@@ -1,8 +1,8 @@
 # Experiment--09-Configuring-UART-in-LPC2148-for-serial-data-transmission-
 
-Name :	GURU PRASAD.B
-Roll no : 212221230032
-Date of experiment :25-11-22
+ Name :	GURU PRASAD.B
+ Roll no : 212221230032
+ Date of experiment :25-11-22
 
 
 
